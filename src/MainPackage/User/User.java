@@ -34,11 +34,36 @@ public class User {
 
     @Override
     public String toString() {
-
+    return super.toString()+'_'+id+name+phoneNo+email;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if(obj instanceof User){
+            User comparableUser = (User) obj;
+            if(this.id.equals(comparableUser.id) ){
+                return true;
+            }else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
 
+    }
+
+    /**
+     *
+     * @param id 用户的代码
+     * @param name 用户的名字
+     * @param phoneNo 用户的手机号
+     * @param email 用户的电子邮件地址
+     */
+    public User(String id, String name, String phoneNo, String email) {
+        this.id = id;
+        this.name = name;
+        this.phoneNo = phoneNo;
+        this.email = email;
     }
 }

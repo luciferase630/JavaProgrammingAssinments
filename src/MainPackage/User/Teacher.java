@@ -15,8 +15,18 @@ public class Teacher extends User{
         return department;
     }
 
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return super.toString()+'_'+teacherNo+'_'+department;
+    }
+
+    public Teacher(String id, String name, String phoneNo, String email, String teacherNo, String department) {
+        super(id, name, phoneNo, email);
+        this.teacherNo = teacherNo;
+        this.department = department;
     }
 }
