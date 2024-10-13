@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="junit">
+  <library name="junit4">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/src/externalLibs/junit4.jar!/" />
     </CLASSES>
