@@ -1,6 +1,7 @@
 package MainPackage.Team;
 import MainPackage.User.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +14,18 @@ public class Team {
     /**
      * 关联属性，学生列表
      * 1...*个学生
+     * @version 1.01 直接给它改成ArrayList，因为有直接返回方法
+     * @version 1.02 直接给他初始化
      */
-    private List<Student> studentList;
+    private ArrayList<Student> studentList=new ArrayList<>();
 
     /**
      * 关联属性，老师列表
      * 0...*个老师
+     * @version 1.01 直接给它改成ArrayList，因为有直接返回方法
+     * @version 1.02 直接给他初始化，我受不了了
      */
-    private List<Teacher> teacherList;
+    private ArrayList<Teacher> teacherList=new ArrayList<>();
 
 
 
@@ -42,17 +47,21 @@ public class Team {
         return creator;
     }
 
+    /**
+     * @version 这个把父类的toString给调用了
+     * @return 返回它的属性值
+     */
     @Override
     public String toString(){
-        return super.toString()+'_'+teamId+'_'+teamName+'_'+department+'_'+creator;
+        return teamId+'_'+teamName+'_'+department+'_'+creator;
     }
 
-    public List<Student> getStudentList(){
+    public ArrayList<Student> getStudentList(){
         return studentList;
 
     }
 
-    public List<Teacher> getTeacherList(){
+    public ArrayList<Teacher> getTeacherList(){
         return teacherList;
 
     }

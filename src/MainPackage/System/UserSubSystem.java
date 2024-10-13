@@ -6,6 +6,7 @@ import MainPackage.User.Teacher;
 import MainPackage.User.User;
 import MainPackage.Team.Team;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,9 @@ public class UserSubSystem {
     /**
      * 关联属性，用户列表
      * 数量0...*users
+     * @version 修改返回值类型
      */
-    private List<User> userList;
+    private ArrayList<User> userList;
 
     public void addStudent(Student student){
         userList.add(student);//直接调用这个得了
@@ -38,8 +40,12 @@ public class UserSubSystem {
         return null;
     }
 
-    public List<Student> getStudentList(){
-        List<Student> result=new ArrayList<Student>();
+    /**
+     * @version 1.01
+     * @return 使得返回类型为Arraylist
+     */
+    public ArrayList<Student> getStudentList(){
+        ArrayList<Student> result=new ArrayList<Student>();
         for (User student:userList){//使用student来遍历，但是这个student实际上是user类型
             if (student instanceof Student){//如果这个对象是student类型的话，那么就把它放进我的容器
                 result.add((Student) student);
@@ -69,8 +75,12 @@ public class UserSubSystem {
 
     }
 
-    public List<Organizer> getOrganizerList(){
-        List<Organizer> result=new ArrayList<Organizer>();
+    /**
+     * @version 1.01
+     * @return 修改返回值类型为ArrayList
+     */
+    public ArrayList<Organizer> getOrganizerList(){
+        ArrayList<Organizer> result=new ArrayList<Organizer>();
         for (User organizer:userList){
             if (organizer instanceof Organizer){
                 result.add((Organizer) organizer);
@@ -99,8 +109,12 @@ public class UserSubSystem {
 
     }
 
-    public List<Teacher> getTeacherList(){
-        List<Teacher> result=new ArrayList<Teacher>();
+    /**
+     * @version 1.01 修改返回值类型
+     * @return 返回一个Arraylist
+     */
+    public ArrayList<Teacher> getTeacherList(){
+        ArrayList<Teacher> result=new ArrayList<Teacher>();
         for (User teacher:userList){
             if (teacher instanceof Teacher){
                 result.add((Teacher) teacher);
@@ -111,7 +125,7 @@ public class UserSubSystem {
     }
 
     public void createTeam(String creatorId,String teamId,String teamName,String department){
-        Student creator=this.getStudentById(creatorId);//通过
+        Student creator=this.getStudentById(creatorId);//通过id来寻找这个学生
         Team team = new Team(teamId,teamName,department,creator);//创建成功
         creator.getTeamList().add(team);//把这个team放在创建者学生的list里
 
@@ -130,10 +144,10 @@ public class UserSubSystem {
     }
 
     public void addTeacherToTeam(String creatorId,String teacherId,String teamId){
-        Student creator=this.getStudentById(creatorId);
-        for (Team team:creator.getTeamList()){
-            if (team.getTeamId().equals(teamId)){
-                team.getTeacherList().add(this.getTeacherById(teacherId));
+        Student creator=this.getStudentById(creatorId);//通过id找到学生
+        for (Team team:creator.getTeamList()){//在它创建的team类里遍历
+            if (team.getTeamId().equals(teamId)){//找到那个team
+                team.getTeacherList().add(this.getTeacherById(teacherId));//加入老师
             }
             return;
         }
@@ -144,7 +158,7 @@ public class UserSubSystem {
     /**
      * 就初始化一下它要操作的User列表
      */
-    public UserSubSystem() {
+    public UserSubSystem() {//在这初始化了
         userList=new ArrayList<User>();
     }
 }

@@ -32,24 +32,24 @@ public class User {
         this.name = name;
     }
 
+    /**
+     * @version 1.01 这里怎么还在调用super的tostring啊？？，错误，改了
+     * @return
+     */
     @Override
     public String toString() {
-    return super.toString()+'_'+id+name+phoneNo+email;
+    return id+'_'+name+'_'+phoneNo+'_'+email;
     }
 
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof User){
-            User comparableUser = (User) obj;
-            if(this.id.equals(comparableUser.id) ){
-                return true;
-            }else {
-                return false;
+            User comparableUser = (User) obj;//可以替换为模式变量，但我不替换
+            if(this.id.equals(comparableUser.id) ){//可以简化if，但我不简化
+                return true;//仅有这一种情况是同一个学生
             }
         }
-        else {
-            return false;
-        }
+       return false;
 
     }
 

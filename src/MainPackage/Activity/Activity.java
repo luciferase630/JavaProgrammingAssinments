@@ -2,6 +2,7 @@ package MainPackage.Activity;
 import MainPackage.Team.*;//需要和Team和User共同作用
 import MainPackage.User.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -19,20 +20,26 @@ public class Activity {
     /**
      * 关联属性，团队列表
      * 数量0...*
+     * @version 1.01 改变teamlist类型为动态数组类型
+     * @version 1.02 初始化还是别在构造函数里搞了,直接在这里操作
      */
-    private List<Team> teamList;
+    private ArrayList<Team> teamList=new ArrayList<>();
 
     /**
      * 关联属性，老师列表
      * 数量1...*
+     * @version 1.01 改变teacherlist类型为动态数组类型
+     * @version 1.02 初始化还是别在构造函数里搞了
      */
-    private List<Teacher> teacherList;
+    private ArrayList<Teacher> teacherList=new ArrayList<>();
 
     /**
      * 关联属性，组织者列表
      * 数量1...*
+     * @version 1.01 改变organizerlist类型为动态数组类型
+     * @version 1.02 初始化还是别在构造函数里搞了
      */
-    private List<Organizer> organizerList;
+    private ArrayList<Organizer> organizerList=new ArrayList<>();
 
 
 
@@ -73,12 +80,11 @@ public class Activity {
 
         Iterator<Team> teamIterator = this.getTeamIterator();//危险，迭代器操作的可是原本的容器
         Team targetTeam;
-        while(teamIterator.hasNext()){
+        while(teamIterator.hasNext()){//正常迭代循环
             targetTeam=teamIterator.next();//从第一个开始赋值
 
             if (targetTeam.getTeamId().equals(id)){//如果说迭代到的这个东西是id匹配的话，那就是目标team
                 teamList.remove(targetTeam);
-                teamIterator=null;
                 break;//迭代器如果指向空引用，java会自动回收，我有点担心我如果一直不处理这些迭代器，这些东西会越来越多
                 //好像没必要这么干啊，这反正是局部变量。。算了保险一点
             }
@@ -90,14 +96,18 @@ public class Activity {
         teacherList.add(teacher);
 
     }
+
+    /**
+     * @version 1.01 我真是服了，我居然没在teamlist里尝试删除teacher,再把那个迭代器指向null这句话删掉
+     * @param id
+     */
     public void removeTeacherFromActivity(String id){
         Iterator<Teacher> teacherIterator=this.getTeacherIterator();
         Teacher targetTeacher;
         while(teacherIterator.hasNext()){
             targetTeacher=teacherIterator.next();
             if (targetTeacher.getId().equals(id)){//逻辑完全同上。这里的id指的是id而不是teacherNo
-                teamList.remove(targetTeacher);
-                teacherIterator=null;
+                teacherList.remove(targetTeacher);
                 break;
             }
         }
@@ -107,6 +117,11 @@ public class Activity {
         organizerList.add(organizer);
 
     }
+
+    /**
+     * @version 1.01 修改2024-10-13 删除了将迭代器指向null的方法
+     * @param Id
+     */
     public void removeOrganizerFromActivity(String Id){
         Iterator<Organizer> organizerIterator=this.getOrganizerIterator();
         Organizer targetOrganizer;
@@ -114,16 +129,20 @@ public class Activity {
             targetOrganizer=organizerIterator.next();
             if (targetOrganizer.getId().equals(id)){
                 organizerList.remove(targetOrganizer);
-                organizerIterator=null;
                 break;
             }
         }
 
 
     }
+
+    /**
+     * @version 10-13-13:30 发现id和name，和各种属性之间没有下划线
+     * @return
+     */
     @Override
     public String toString(){
-        return id+name+String.valueOf(startTime)+String.valueOf(endTime)+site;
+        return id+'_'+name+'_'+String.valueOf(startTime)+'_'+String.valueOf(endTime)+'_'+site;
 
     }
     @Override
